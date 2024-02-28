@@ -144,6 +144,8 @@ public class frmCalculadora extends JFrame implements ActionListener {
 		double ollas = etiquetas.cantidadOllas();
 		double quesos = etiquetas.cantidadQuesos();
 		double sellar = etiquetas.etiquetasSellar();
+		
+		
 		ollas = Double.parseDouble(txtKilosQueso.getText());
 		quesos = Double.parseDouble(txtKilosQueso.getText());
 		sellar = Double.parseDouble(txtQuesosSaldran.getText());
