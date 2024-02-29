@@ -6,21 +6,35 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.sound.midi.Soundbank;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import java.awt.Font;
+import javax.swing.JRadioButton;
 
 public class frmCalculadora extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel lblNewLabel;
-	private JTextField txtOllas300;
-	private JButton btnIngresar300;
+	private JTextField txtOllas;
+	private JButton btnIngresar;
+	private JSeparator separator;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JTextField txtKilosQueso;
+	private JTextField txtQuesosSaldran;
+	private JTextField txtEtiquetasGramos;
+	private JLabel lblNewLabel_5;
+	private JRadioButton rdioQueso300;
+	private JRadioButton rdioQueso250;
+	DecimalFormat format = new DecimalFormat("###");
 
 	/**
 	 * Launch the application.
@@ -42,18 +56,9 @@ public class frmCalculadora extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	Etiquetas etiquetas = new Etiquetas(0.5, 100, 0.3);
-	Etiquetas etiquetas250 = new Etiquetas(0.5, 100, 0.250);
-	private JLabel lblNewLabel_1;
-	private JTextField txtOllas250;
-	private JButton btnIngresar250;
-	private JSeparator separator;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
-	private JTextField txtKilosQueso;
-	private JTextField txtQuesosSaldran;
-	private JTextField txtEtiquetasGramos;
+	Etiquetas etiquetas300 = new Etiquetas(0.5, 100, 0.3);
+	Etiquetas etiquetas250 = new Etiquetas(0.5, 100, 0.25);
+	
 	
 	public frmCalculadora() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,37 +69,17 @@ public class frmCalculadora extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("300");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(167, 27, 46, 17);
-		contentPane.add(lblNewLabel);
+		txtOllas = new JTextField();
+		txtOllas.addActionListener(this);
+		txtOllas.setBounds(259, 39, 86, 20);
+		contentPane.add(txtOllas);
+		txtOllas.setColumns(10);
 		
-		txtOllas300 = new JTextField();
-		txtOllas300.addActionListener(this);
-		txtOllas300.setBounds(261, 25, 86, 20);
-		contentPane.add(txtOllas300);
-		txtOllas300.setColumns(10);
-		
-		btnIngresar300 = new JButton("Ingresar");
-		btnIngresar300.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnIngresar300.addActionListener(this);
-		btnIngresar300.setBounds(380, 24, 135, 23);
-		contentPane.add(btnIngresar300);
-		
-		lblNewLabel_1 = new JLabel("250");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(167, 53, 58, 20);
-		contentPane.add(lblNewLabel_1);
-		
-		txtOllas250 = new JTextField();
-		txtOllas250.setColumns(10);
-		txtOllas250.setBounds(261, 56, 86, 20);
-		contentPane.add(txtOllas250);
-		
-		btnIngresar250 = new JButton("Ingresar");
-		btnIngresar250.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnIngresar250.setBounds(380, 58, 135, 23);
-		contentPane.add(btnIngresar250);
+		btnIngresar = new JButton("Ingresar");
+		btnIngresar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnIngresar.addActionListener(this);
+		btnIngresar.setBounds(390, 38, 135, 23);
+		contentPane.add(btnIngresar);
 		
 		separator = new JSeparator();
 		separator.setBounds(10, 91, 629, 2);
@@ -129,45 +114,84 @@ public class frmCalculadora extends JFrame implements ActionListener {
 		txtEtiquetasGramos.setColumns(10);
 		txtEtiquetasGramos.setBounds(390, 264, 135, 20);
 		contentPane.add(txtEtiquetasGramos);
+		
+		lblNewLabel_5 = new JLabel("Cantidad de Ollas");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_5.setBounds(253, 0, 135, 14);
+		contentPane.add(lblNewLabel_5);
+		
+		rdioQueso300 = new JRadioButton("300gr");
+		rdioQueso300.addActionListener(this);
+		rdioQueso300.setFont(new Font("Tahoma", Font.BOLD, 11));
+		rdioQueso300.setBounds(150, 24, 66, 23);
+		contentPane.add(rdioQueso300);
+		
+		rdioQueso250 = new JRadioButton("250gr");
+		rdioQueso250.addActionListener(this);
+		rdioQueso250.setFont(new Font("Tahoma", Font.BOLD, 11));
+		rdioQueso250.setBounds(150, 55, 78, 23);
+		contentPane.add(rdioQueso250);
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == txtOllas300) {
-			actionPerformedTextField(e);
+		if (e.getSource() == rdioQueso250) {
+			actionPerformedRdioQueso250(e);
 		}
-		if (e.getSource() == btnIngresar300) {
-			actionPerformedBtnProcesar(e);
+		if (e.getSource() == rdioQueso300) {
+			actionPerformedrdioQueso300(e);
+		}
+		if (e.getSource() == btnIngresar) {
+			actionPerformedbtnIngresar(e);
 		}
 	}
-	//int kilosQueso = Integer.parseInt(txtKilosQueso.getText());
-	protected void actionPerformedBtnProcesar(ActionEvent e) {
-		numeroOllas();
-		double ollas = etiquetas.cantidadOllas();
-		double quesos = etiquetas.cantidadQuesos();
-		double sellar = etiquetas.etiquetasSellar();
+	
+
+	protected void actionPerformedbtnIngresar(ActionEvent e) {
+		String cantidaOllas = txtOllas.getText();
 		
+		if(!cantidaOllas.isEmpty()) {
 		
-		ollas = Double.parseDouble(txtKilosQueso.getText());
-		quesos = Double.parseDouble(txtKilosQueso.getText());
-		sellar = Double.parseDouble(txtQuesosSaldran.getText());
+		if(rdioQueso300.isSelected()) {
+			
+			numeroOllas300();
+			
+			double kilosQueso = etiquetas300.cantidadQuesosKilos();
+			double cantidadQuesosResultantes = etiquetas300.cantidadQuesosResultantes();
+			double etiquetasSellarGramos = etiquetas300.etiquetasSellarGramos();
+			
+			txtKilosQueso.setText(String.valueOf(kilosQueso));
+			txtQuesosSaldran.setText(String.valueOf(format.format(cantidadQuesosResultantes)));
+			txtEtiquetasGramos.setText(String.valueOf(format.format(etiquetasSellarGramos)));
+			
+			
+		}
+		if(rdioQueso250.isSelected())  {
+			
+			numeroOllas250();
+			
+			double kilosQueso = etiquetas250.cantidadQuesosKilos();
+			double cantidadQuesosResultantes = etiquetas250.cantidadQuesosResultantes();
+			double etiquetasSellarGramos = etiquetas250.etiquetasSellarGramos();
+			
+			txtKilosQueso.setText(String.valueOf(kilosQueso));
+			txtQuesosSaldran.setText(String.valueOf(format.format(cantidadQuesosResultantes)));
+			txtEtiquetasGramos.setText(String.valueOf(format.format(etiquetasSellarGramos)));	
+		}
+		}
+		else {
+			
+			JOptionPane.showMessageDialog(this,"Esta Vacio, Ingrese nuevamente");
+		}
+	}
+	protected void actionPerformedrdioQueso300(ActionEvent e) {
 		
-		/*imprimir("Cantidad de kilos de queso: " + etiquetas.cantidadOllas() );
-		imprimir("Cantidad de quesos que saldran: " + etiquetas.cantidadQuesos());
-		imprimir("Etiquetas que se tienen que sellar en gramos: " + etiquetas.etiquetasSellar());*/
+	}
+	protected void actionPerformedRdioQueso250(ActionEvent e) {
 		
 	}
-	protected void actionPerformedTextField(ActionEvent e) {
-		numeroOllas();
+	public double numeroOllas300() {
+		return etiquetas300.numeroOllas = Double.parseDouble(txtOllas.getText());
 	}
-	public double numeroOllas() {
-		return etiquetas.olla = Double.parseDouble(txtOllas300.getText());
+	public double numeroOllas250() {
+		return etiquetas250.numeroOllas = Double.parseDouble(txtOllas.getText());
 	}
-	/*void imprimir(String s) {
-		kilosQueso.append(s + "\n");
-	}
-	void imprimir2(String s) {
-		.append(s + "\n");
-	}
-	void imprimir3(String s) {
-		textResultado.append(s + "\n");
-	}*/
 }

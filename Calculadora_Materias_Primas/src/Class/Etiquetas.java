@@ -2,11 +2,11 @@ package Class;
 
 public class Etiquetas {
 	private double peso, pesoOlla, pesoQueso;
-	public static double olla;
+	public static double numeroOllas;
 
-	public Etiquetas(double peso, double pesoOlla, double pesoQueso) {
+	public Etiquetas(double pesoEtiqueta, double pesoOlla, double pesoQueso) {
 		
-		this.peso = peso;
+		this.peso = pesoEtiqueta;
 		this.pesoOlla = pesoOlla;
 		this.pesoQueso = pesoQueso;
 	}
@@ -35,14 +35,14 @@ public class Etiquetas {
 		this.pesoQueso = pesoQueso;
 	}
 
-	public double cantidadQuesos() {
-		return cantidadOllas() / pesoQueso;
+	public double cantidadQuesosResultantes() {
+		return cantidadQuesosKilos() / pesoQueso;
 	}
 	
-	public double etiquetasSellar() {
-		return cantidadQuesos() * peso;
+	public double etiquetasSellarGramos() {
+		return cantidadQuesosResultantes() * peso;
 	}
-	public double cantidadOllas() {
-		return olla * pesoOlla; 
+	public double cantidadQuesosKilos() {
+		return numeroOllas * pesoOlla; 
 	}
 }
